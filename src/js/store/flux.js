@@ -1,43 +1,58 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			personajes: [],
+			planetas: [],
+			personaje: {},
+			planeta: {}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			obtenerPersonajes: async () => {
+				try {
+					const response = await fetch("https://swapi.dev/api/people")
+					const data = await response.json()
+					console.log(data)
+					setStore({ personajes: data.results })
+				} catch (error) {
+					console.log(error)
+				}
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			personajeIndividual: async (id) => {
+				try {
+					const response = await fetch("https://swapi.dev/api/people/" + id)
+					const data = await response.json()
+					console.log(data)
+					setStore({ personaje: data })
+				} catch (error) {
+					console.log(error)
+				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+			obtenerPlanetas: async () => {
+				try {
+					const response = await fetch("https://swapi.dev/api/planets")
+					const data = await response.json()
+					console.log(data)
+					setStore({ planetas: data.results })
+				} catch (error) {
+					console.log(error)
+				}
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+			planetaIndividual: async (id) => {
+				try {
+					const response = await fetch("https://swapi.dev/api/planets/" + id)
+					const data = await response.json()
+					console.log(data)
+					setStore({ planeta: data })
+				} catch (error) {
+					console.log(error)
+				}
 			}
+
+
 		}
 	};
 };
