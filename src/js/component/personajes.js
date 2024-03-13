@@ -8,7 +8,7 @@ export const Personajes = () => {
         actions.obtenerPersonajes()
     }, [])
     return (
-        <div className="container"> 
+        <div className="container">
             <h1>Personajes</h1>
             <div className="card-group">
                 <div className="d-flex flex-row overflow-scroll">
@@ -22,7 +22,10 @@ export const Personajes = () => {
                                 <p className="card-text">gender: {item.gender}</p>
                                 <p className="card-text">birthay: {item.birth_year}</p>
 
-                                <a href="#" className="btn btn-primary float-start">learn more</a>
+                                <Link to={"/single/" + (id + 1)} className="btn btn-primary float-start">learn more</Link>
+                                <button className="btn btn-outline-danger float-end" onClick={()=>actions.agregarFavoritos(item.name)}>
+                                    <i className="fa fa-heart"></i>
+                                </button>
                             </div>
                         </div>
                     ))}
